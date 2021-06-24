@@ -20,29 +20,50 @@
     var CONFIG = {"hostname":"wangjianze96.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jianze&#39;s Blog">
-<meta property="og:url" content="https://wangjianze96.github.io/index.html">
+  <meta name="description" content="Pre-installation首先就是下载Arch Linux。本篇教程在官方文档的基础上，增加了图片显示以及boot loader的安装。 注：本教程只包含了UEFI启动，BIOS+MBR请参考官方文档 参考：bilibili up主 TheCW 的Arch Linux安装视频。 安装启动如果你在用VMware安装虚拟机，想采用UEFI的话，可以在创建好虚拟机之后不要启动，进入虚拟机的文件夹，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="保姆级Arch Linux安装教程(1)">
+<meta property="og:url" content="https://wangjianze96.github.io/2021/06/24/arch-install/index.html">
 <meta property="og:site_name" content="Jianze&#39;s Blog">
+<meta property="og:description" content="Pre-installation首先就是下载Arch Linux。本篇教程在官方文档的基础上，增加了图片显示以及boot loader的安装。 注：本教程只包含了UEFI启动，BIOS+MBR请参考官方文档 参考：bilibili up主 TheCW 的Arch Linux安装视频。 安装启动如果你在用VMware安装虚拟机，想采用UEFI的话，可以在创建好虚拟机之后不要启动，进入虚拟机的文件夹，">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/1.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/2.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/3.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/4.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/5.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/6.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/7.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/8.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/9.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/10.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/11.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/12.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/13.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/14.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/15.png">
+<meta property="og:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/16.png">
+<meta property="article:published_time" content="2021-06-24T12:13:20.000Z">
+<meta property="article:modified_time" content="2021-06-24T14:13:21.369Z">
 <meta property="article:author" content="Wang Jinaze">
-<meta property="article:tag" content="Hardware, FPGA">
+<meta property="article:tag" content="Tutorial">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wangjianze96.github.io/2021/06/24/arch-install/arch_imgs/1.png">
 
-<link rel="canonical" href="https://wangjianze96.github.io/">
+<link rel="canonical" href="https://wangjianze96.github.io/2021/06/24/arch-install/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Jianze's Blog</title>
+  <title>保姆级Arch Linux安装教程(1) | Jianze's Blog</title>
   
 
 
@@ -143,9 +164,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -161,10 +183,9 @@
       <meta itemprop="name" content="Jianze's Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/24/arch-install/" class="post-title-link" itemprop="url">保姆级Arch Linux安装教程(1)</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          保姆级Arch Linux安装教程(1)
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -188,7 +209,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Pre-installation"><a href="#Pre-installation" class="headerlink" title="Pre-installation"></a>Pre-installation</h1><p>首先就是下载<a target="_blank" rel="noopener" href="https://archlinux.org/download/">Arch Linux</a>。本篇教程在<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Installation_guide">官方文档</a>的基础上，增加了图片显示以及boot loader的安装。</p>
+        <h1 id="Pre-installation"><a href="#Pre-installation" class="headerlink" title="Pre-installation"></a>Pre-installation</h1><p>首先就是下载<a target="_blank" rel="noopener" href="https://archlinux.org/download/">Arch Linux</a>。本篇教程在<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Installation_guide">官方文档</a>的基础上，增加了图片显示以及boot loader的安装。</p>
 <p><strong><em>注：本教程只包含了UEFI启动，BIOS+MBR请参考<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Installation_guide">官方文档</a></em></strong></p>
 <p><strong>参考</strong>：bilibili up主 TheCW 的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV11J411a7Tp">Arch Linux安装视频</a>。</p>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>如果你在用VMware安装虚拟机，想采用UEFI的话，可以在创建好虚拟机之后不要启动，进入虚拟机的文件夹，找到文件后缀为”.vmx”的文件，用你喜欢的文本编辑器打开它，在其中加上</p>
@@ -277,106 +298,33 @@
 <p>恭喜！Arch Linux已经安装好了！开始玩耍吧！</p>
 <p><img src="./arch_imgs/16.png" alt="16"></p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/Tutorial/" rel="tag"># Tutorial</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://wangjianze96.github.io/2021/01/20/Memristive-Devices/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Wang Jinaze">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jianze's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/20/Memristive-Devices/" class="post-title-link" itemprop="url">Memristive Devices - Knowledge Review</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-01-20 16:43:30" itemprop="dateCreated datePublished" datetime="2021-01-20T16:43:30+08:00">2021-01-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-24 21:24:33" itemprop="dateModified" datetime="2021-01-24T21:24:33+08:00">2021-01-24</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="History"><a href="#History" class="headerlink" title="History"></a>History</h1><p>In 1971, <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/1083337">Leon Chua</a> argued that there should be a fourth basic circuit element, called memristor, which is a passive device that present the relation between magnetic flux $\varphi$ and charge $q$.</p>
-<p><img src="./imgs/fourth-element.png" alt="fourth-element"></p>
-<p>Then nearly 40 years people cannot find a physical device that fit in the model that Chua proposed. In 2008, <a target="_blank" rel="noopener" href="https://www.nature.com/articles/nature06932">Strukov et al.</a> from HP Labs proposed a physical prototype that have the hysteresis characteristics (current-voltage curve). The basic mathematic definition of the current-controlled memristor is:<br>$$<br>\begin{aligned}<br>&amp; v = R(w, i)i \<br>&amp; \frac{dw}{dt} = f(w, i)i<br>\end{aligned}<br>$$<br>where w can be a set of state variables and R, f can be explicit functions of time. </p>
-<p>The model they proposed is shown as below:<br><img src="./imgs/memristor2008.png" alt="memristor2008"></p>
-<p>So, base on the model and equations above, the voltage and current relation can be derived as<br>$$<br>\begin{aligned}<br>&amp; v(t) = (R_{on}\frac{w(t)}{D} + R_{off}(1-\frac{w(t)}{D}))i(t) \<br>&amp; \frac{dw(t)}{dt} = \mu_v\frac{R_{on}}{D}i(t)<br>\end{aligned}<br>$$<br>base on the equations above, the state variable $w$ can be found and memresistance $M$ can also be derived.<br>$$<br>\begin{aligned}<br>&amp; w(t) = \mu_v\frac{R_{on}}q(t) \<br>&amp; M(q) = R_{off}(1-\frac{\mu_vR_{on}}{D^2}q(t))<br>\end{aligned}<br>$$</p>
-<p>The following figure shows the electrical characteristics of the proposed memristor.<br><img src="./imgs/memristor-charac.png" alt="memristor-charac"><br>When a $sin(\omega_0t)$ wave external bias is applied on the memristor and the current-voltage curve of the memristor. As we can see, there are two stage of the memristor, the first one is low-resistance-state(LRS) and the other is high-resistance-state(HRS). This hysteresis characteristic is the fundamental of the memristive devices.</p>
-<p>Though people have proposed such devices, the control of these devices is poor. Thus, [Sangwan et al.] proposed a gate-tunable memristor that the set voltage(turn the memristor on) can be modulated by a third gate voltage. They used a monolayer MoS2 and made the memristor a field-effect geometry. The gate doped Si at the bottom shows in the figure below.<br><img src="./imgs/gate-memristor.png" alt="gate-memristor"></p>
-<h1 id="Memtransistor"><a href="#Memtransistor" class="headerlink" title="Memtransistor"></a>Memtransistor</h1><p>Base on the previous of their own research, Sangwan proposed a new device called memtransistor, which combine both memristor and transistor’s benefits. The figure shows schematic of the memtransistor, there is a doped Si layer in the bottom, followed by a SiO2, then is a monolayer MoS2, then is the electrode. a, b, c are images of the monolayer MoS2. in a, the dark region is the defects (two-layer MoS2). In b, red lines are the grain-boundaries. D shows channels width. And e shows the channel length.<br><img src="./imgs/scheme-of-memtransistor.png" alt="scheme-of-memtransistor"></p>
-<h2 id="Memtransistor’s-Electrical-Characteristics"><a href="#Memtransistor’s-Electrical-Characteristics" class="headerlink" title="Memtransistor’s Electrical Characteristics"></a>Memtransistor’s Electrical Characteristics</h2><p>In this figure, $I_d-V_d$ curve is shown. The memtransistor is at $V_g =10V$, $w=100\mu m$ and $L=5\mu m$.<br>The device shows HRS at $V_d=0V$ and then slowly change to LRS from $V_d=0V$ to $80V$. The device maintains LRS during the sweep from $80V$ to $0V$ (sweep 2). Then the device is reset to HRS from $0V$ to $-80V$, and maintains HRS from $-80V$ to $0V$.<br>This curve shows that the device act as LRS-HRS memtransistor.<br>The hysteresis in the $I_d-V_d$ curve of the memtransistor is fundamentally different from the commonly reported hysteresis in the transfer characteristics ($I_d-V_g$ curves) of the field-effect transistors, which are typically due to oxide-related traps.<br><img src="./imgs/idvd-mem.png" alt="idvd-mem"></p>
-<p>The $I_d-V_g$ curve of MoS2 memtransistor in the LRS and HRS shows large shit (about 10V) in the threshold voltage, and intersect at $V_g = V_{cross}$.<br>Compare to the LRS, the HRS shows up to 100 times higher resistance for $V_g &lt; V_{cross}$, and 2 times higher field-effect mobility ($\mu_v$) at $V_g &gt; V_{cross}$.<br>Therefore, the forward bias switching loop changes from anticlockwise (LRS -&gt; HRS) for $V_g &lt; V_{cross}$ to clockwise (HRS -&gt; LRS) at $V_g &gt; V_{cross}$.<br><img src="./imgs/idvg-mem.png" alt="idvg-mem"></p>
-<h2 id="Switching-Mechanism"><a href="#Switching-Mechanism" class="headerlink" title="Switching Mechanism"></a>Switching Mechanism</h2><p>Table showing the resistive switching characteristics of LRS–HRS and LRS–LRS memtransistors at the source and drain contacts during the four stages of a full sweep cycle.</p>
-<p><img src="./imgs/switch.png" alt="switch"></p>
-<p>The switching mechanism of MoS2 memtransistors can be understood by assuming two memristors at the source (S-memristor) and the drain (D-memristor) that are connected by a FET. We note that gate-tunable resistive switching cannot be obtained by simply connecting two conventional memristors with a transistor. The Schottky barrier height modulation is closely connected to the operation of the SB-FET in the MoS2 memtransistor. Thus, this distinction between memristor and transistor only serves to specify the switching mechanism. MoS2 memtransistors with residue-free interfaces between the metal and MoS2 undergo HRS-to-LRS switching at positive bias and LRS-to-HRS switching in negative bias and are called LRS–HRS memtransistors here. MoS2 memtransistors with an approximately 1.5-nm-thick polymer tunnel barrier between the metal and MoS2 undergo similar HRS-to-LRS switching at both positive and negative biases and are called LRS–LRS memtransistors. The main difference between the two types is that the LRS–HRS memtransistor retains its state while crossing the $0V$ level, whereas LRS–LRS memtransistors undergo switching while crossing $0V$. Both of these contrasting behaviours can be explained by the resistance table in figure above. HD and LD are the resistance values of the HRS and LRS of the D-memristor, whereas HS and LS are the resistance values of the HRS and LRS of the S-memristor, respectively. We have $HD \gg LD$ and $HS \gg LS$ for both kinds of memtransistors, and their relative amplitudes determine the switching ratio. LD′ and LS′ are intermediate states with resistance values that differ vastly for LRS–HRS and LRS–LRS memtransistors.</p>
-<p><img src="./imgs/lrs-lrs.png" alt="lrs-lrs"></p>
-<p>For LRS–HRS memtransistors, switching events A and B dominate, while switching event C is negligible. Switching A occurs at the bottleneck contact (that is, the source for forward bias and the drain for reverse bias) while switching B occurs at the other contact in order to restore the dopant distribution at the end of a full sweep cycle. This condition is necessitated by bipolar resistive switching, and its physical origin is well explained by the memtransistor model. Thus, intermediate states LD′ and LS′ have resistance values close to LD and LS, respectively.<br>On the other hand, for LRS–LRS memtransistors, all switching events A, B and C appear. The resist layer acts at a tunnel barrier that minimizes pinning of the Fermi level of MoS2. Introduction of the tunnel barrier increases the thermionic emission contribution to the total current considerably, outweighing the additional tunnel resistance. Here, a tunnel barrier of about 1.5-nm-thick polymer resist makes the resistances of reverse-biased Schottky diodes at the source ($V_D &gt; 0V$) and drain ($V_D &lt; 0V$) more symmetric, resulting in more symmetric ID–VD compared to LRS–HRS memtransistors. This switching involves a dynamic negative differential resistance feature for $VD &lt; 0V$ common in memristors. This phenomenon increases the resistance of the intermediate states LD′ and LS′ so that $LD′ \gg LD$ and $LS′ \gg LS$.</p>
-<h2 id="Advantages-and-Limitations"><a href="#Advantages-and-Limitations" class="headerlink" title="Advantages and Limitations"></a>Advantages and Limitations</h2><ul>
-<li>Compare to conventional transistor, memtransistor is able to memory and switch at the same time.</li>
-<li>Compare to memristor, memtransistor provide more terminals which allows more control of the device.</li>
-<li>Fabrication</li>
-<li>Scale</li>
-</ul>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/20/Memristive-Devices/" rel="prev" title="Memristive Devices - Knowledge Review">
+      <i class="fa fa-chevron-left"></i> Memristive Devices - Knowledge Review
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -429,6 +377,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pre-installation"><span class="nav-number">1.</span> <span class="nav-text">Pre-installation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8"><span class="nav-number">2.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.2.</span> <span class="nav-text">一些准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">分区（重要）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.4.</span> <span class="nav-text">文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%AE%89%E8%A3%85%EF%BC%88%E7%BB%88%E4%BA%8E%EF%BC%89"><span class="nav-number">2.5.</span> <span class="nav-text">真正的安装（终于）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.6.</span> <span class="nav-text">配置系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boot-loader%E5%BC%95%E5%AF%BC"><span class="nav-number">2.7.</span> <span class="nav-text">Boot loader引导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%EF%BC%8C%E4%BD%86%E4%B9%9F%E4%B8%8D%E6%98%AF%E6%9C%80%E5%90%8E"><span class="nav-number">2.8.</span> <span class="nav-text">最后，但也不是最后</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -541,59 +490,6 @@
   
 
   
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 
