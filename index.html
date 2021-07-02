@@ -184,7 +184,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-07-02 18:56:10 / Modified: 22:16:08" itemprop="dateCreated datePublished" datetime="2021-07-02T18:56:10+08:00">2021-07-02</time>
+              <time title="Created: 2021-07-02 18:56:10 / Modified: 23:59:50" itemprop="dateCreated datePublished" datetime="2021-07-02T18:56:10+08:00">2021-07-02</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -208,7 +208,7 @@
 
       
           <blockquote>
-<p>吐槽：因为之前hexo的tags和categories页面无法正常显示，在配置的过程中一不小心把原来的两篇博客都删掉了。尝试了用windows FileRecovery找了回来，确实是找回来了。<br>只不过，找回来的文件都无法正常打开，虽然名称和后缀都对，但是就是无法正常显示，无论是图片还是文字，都不行。只能重写了。这一片还好，是我不久前写的，但是另一篇是很久之前写的了。<br>如果以后还有时间的话，再补回来吧。这回长记性了QAQ</p>
+<p>吐槽：因为之前hexo的tags和categories页面无法正常显示，在配置的过程中一不小心把原来的两篇博客都删掉了。尝试了用windows FileRecovery找了回来，确实是找回来了。<br>只不过，找回来的文件都无法正常打开，虽然名称和后缀都对，但是就是无法正常显示，无论是图片还是文字，都不行。只能重写了。这一篇还好，是我不久前写的，但是另一篇是很久之前写的了。<br>如果以后还有时间的话，再补回来吧。这回长记性了QAQ</p>
 </blockquote>
 <h1 id="安装前"><a href="#安装前" class="headerlink" title="安装前"></a>安装前</h1><ul>
 <li>下载<a target="_blank" rel="noopener" href="https://archlinux.org/download/">Arch Linux</a>以及制作安装介质（物理机安装）。</li>
@@ -260,7 +260,7 @@
 <p>下面我就根据以上，开始在这个磁盘上制作分区。</p>
 <p>首先输入<code>g</code>将现在的磁盘变为GPT格式：</p>
 <p><img src="./arch_imgs/5.png" alt="5"></p>
-<p>之后输入<code>n</code>产生一个新的分区，接着分区编号，可以看到从1到128都可以；再之后输入起始位置（默认就好），之后输入终点位置，输入形式为&lt;Capacity+&gt;，例如<code>512M+</code>或者<code>2G+</code>，一定不要忘记加号。</p>
+<p>之后输入<code>n</code>产生一个新的分区，接着分区编号，可以看到从1到128都可以；再之后输入起始位置（默认就好），之后输入终点位置，输入形式为&lt;+Capacity&gt;，例如<code>+512M</code>或者<code>+2G</code>，一定不要忘记加号。</p>
 <p>按照之前我设想的分区，将以上过程重复几遍，如下图所示（我没有按照1234编号，按个人需求配置），这时再输入<code>p</code>查看我们刚刚告诉给<code>fdisk</code>的分区指令：</p>
 <p><img src="./arch_imgs/6.png" alt="6"></p>
 <p>可以看到我们分区已经显示出来了，但是这时<code>fdisk</code>还没有将这些分区写入，在我们输入写入指令之前，<code>fdisk</code>不会更改我们的磁盘。现在输入<code>w</code>写入。写入完成后<code>fdisk</code>会自动退出，回到root下。</p>
