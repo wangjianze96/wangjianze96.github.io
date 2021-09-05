@@ -159,6 +159,128 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wangjianze96.github.io/2021/09/05/arch-install-end/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Jinaze">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianze's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/05/arch-install-end/" class="post-title-link" itemprop="url">保姆级Arch Linux安装教程(2)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-09-05 16:42:49 / Modified: 18:34:31" itemprop="dateCreated datePublished" datetime="2021-09-05T16:42:49+08:00">2021-09-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hobby/" itemprop="url" rel="index"><span itemprop="name">Hobby</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一些准备工作"><a href="#一些准备工作" class="headerlink" title="一些准备工作"></a>一些准备工作</h1><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h2><ul>
+<li><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/">官方Wiki</a></li>
+<li>Bilibili up主：<a target="_blank" rel="noopener" href="https://space.bilibili.com/13081489">TheCW</a> -&gt; <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1q7411s7LS">Arch Linux安装视频</a></li>
+</ul>
+<h2 id="联网（重要）"><a href="#联网（重要）" class="headerlink" title="联网（重要）"></a>联网（重要）</h2><p>这一小节接<a href="https://wangjianze96.github.io/2021/07/02/arch-install/">上一篇教程</a>。接下来的所有操作都已默认你已经安装好了Arch Linux，如果你还没有安装，可以参考上一篇教程进行安装。</p>
+<p>当我们开机后会进入到下图中的界面，一个纯命令行交互界面。如果你不需要一个图形化界面，那么只需要把接下来联网的步骤做完，你的系统就已经准备好了。</p>
+<p><img src="./arch_imgs/17.png" alt="17"></p>
+<p>因为在之前的安装过程中，我们并没有创建新的用户，只是创建了<code>root</code>的密码，所以登录时只能以<code>root</code>身份登录系统。这时如果直接输入<code>pacman -Syyu</code>的话，系统会报错因为我们没有连接到互联网。为了让系统连接到网络，需要每次开机都输入一次<code>dhcpcd &amp;</code>，这样很麻烦而且效率很低。所以为了让每次开机时系统自动连接到网络，我们需要按照以下步骤来让系统每次开机时自动运行<code>dhcpcd</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip link show</span><br></pre></td></tr></table></figure>
+<p>输入上面的命令后，我们可以看到我们系统的网络接口名称，我的如下图所示，接口名称为<code>ens33</code></p>
+<p><img src="./arch_imgs/18.png" alt="18"></p>
+<p>接下来，我们创建一个名为<code>dhcpcd@ens33</code>的服务，并在每次开机时自动启动这个服务，输入以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable dhcpcd@ens33.service</span><br></pre></td></tr></table></figure>
+<p>注意，将上面的<code>ens33</code>替换成你自己的接口名称。这时如果重启系统的话，利用<code>ping www.baidu.com</code>来查看，我们就会看到此时系统已经连到网络了。不想重启的话，可以输入下面的命令启动这一服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start dhcpcd@ens33.service</span><br></pre></td></tr></table></figure>
+<p>这时再输入<code>pacman -Syyu</code>，系统就可以正常安装其他包和更新了。</p>
+<p><img src="./arch_imgs/19.png" alt="19"></p>
+<h2 id="创建低权限用户"><a href="#创建低权限用户" class="headerlink" title="创建低权限用户"></a>创建低权限用户</h2><p>创建较低权限用户的原因是<code>root</code>权限过高，对于不太熟悉Linux系统的用户，在输入一些对系统有较大改动的命令时，很容易出现误操作，比如<code>rm -rf /</code>。使用较低权限用户可以有效避免这些问题。首先安装一下必要的工具：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S base-devel</span><br></pre></td></tr></table></figure>
+<p>使用<code>useradd</code>添加一个新的用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd jay -m -G wheel</span><br></pre></td></tr></table></figure>
+<p>其中<code>-m</code>是为用户创建<code>home</code>目录，<code>-G</code>是把用户添加进组，上面的命令是将用户<code>jay</code>添加进名为<code>wheel</code>组。但此时这个用户还没有权限对系统作出改动。我们需要编辑<code>/etc/sudoers.tmp</code>文件。这里我用<code>vim</code>进行编辑。找到<code># %wheel ALL=(ALL) ALL</code>这一行，删掉前面的<code>#</code>，保存并退出。</p>
+<p><img src="./arch_imgs/20.png" alt="20"></p>
+<p>这时我们从<code>root</code>用户退出，已创建的新用户登录，输入<code>sudo pacman -Syyu</code>，我们就会看到这个新的用于再输入密码后也可以对系统作出改动了。</p>
+<p><img src="./arch_imgs/21.png" alt="21"></p>
+<h1 id="安装KDE-Plasma"><a href="#安装KDE-Plasma" class="headerlink" title="安装KDE-Plasma"></a>安装KDE-Plasma</h1><h2 id="安装display-server"><a href="#安装display-server" class="headerlink" title="安装display server"></a>安装display server</h2><p>主流的display server有两个，一个是<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Xorg">Xorg</a>（X11），另一个时<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Wayland">Wayland</a>。Wayland的主要目标时成为Xorg的继任者。可以根据个人需求安装。本篇使用Xorg。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
+<h2 id="安装plasma-desktop以及sddm"><a href="#安装plasma-desktop以及sddm" class="headerlink" title="安装plasma-desktop以及sddm"></a>安装plasma-desktop以及sddm</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S plasma</span><br></pre></td></tr></table></figure>
+<p>注意，此命令其实只安装了<code>plasma-desktop</code>，一些常用的KDE应用并没有被安装。</p>
+<p><code>sddm</code>是一个<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Display_manager">display manager</a>。通常被用于系统的login，例如下图：</p>
+<p><img src="./arch_imgs/22.png" alt="22"></p>
+<p>输入下面的命令安装<code>sddm</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S sddm</span><br></pre></td></tr></table></figure>
+<p>和<code>dhcpcd</code>一样，此时<code>sddm</code>并不会在下次开机时自动运行，所以，类似<code>dhcpcd</code>，我们也要创建一个名为<code>sddm.service</code>的服务并告知系统我们需要在每次开机时自动运行这个服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable sddm.service</span><br></pre></td></tr></table></figure>
+<h2 id="安装kde-applications"><a href="#安装kde-applications" class="headerlink" title="安装kde-applications"></a>安装kde-applications</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S kde-applications</span><br></pre></td></tr></table></figure>
+<p>输入这个命令后，我们可以看到以下输出：</p>
+<p><img src="./arch_imgs/23.png" alt="23"></p>
+<p>可以看到，pacman给出了所有会安装的包，如果你不像我一样只想要一个小一些的系统的话，就可以直接默认全选了。因为是在笔记本上新建的虚拟机，我没有给Arch分配很大的空间。所以我这里只选了几个必须的包：</p>
+<ul>
+<li>(13 &amp; 14) dolphin：kde的文件管理器</li>
+<li>(21) gwenview：kde的图片查看器</li>
+<li>(106) konsole：kde的终端模拟器</li>
+<li>(142) okular：kde的PDF阅读器<br>注：因为版本更新，在安装时软件包的编号可能会变化，输入你想安装的包的编号就好。</li>
+</ul>
+<p>当然，还差一个浏览器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S firefox</span><br></pre></td></tr></table></figure>
+<p>注：google-chrome不在Arch Linux的官方库中，<a target="_blank" rel="noopener" href="https://aur.archlinux.org/">AUR</a>中有相关的包，可以参考<a target="_blank" rel="noopener" href="https://aur.archlinux.org/packages/google-chrome/">官方文档</a>进行安装。</p>
+<p>以上步骤做好后，重启系统，我们就有一个KDE桌面的Arch Linux了。</p>
+<p><img src="./arch_imgs/24.png" alt="24"></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>本教程只是引导安装了KDE-plasma桌面，Arch Linux还有其他有意思的桌面，比如Gnome和XFCE。如果有兴趣的话，也可以尝试一些tiling windows manager，比如<a target="_blank" rel="noopener" href="https://dwm.suckless.org/">dwm</a>，<a target="_blank" rel="noopener" href="https://i3wm.org/docs/userguide.html">i3</a>等。</p>
+<p>我在自己的GitHub上放出了自己<a target="_blank" rel="noopener" href="http://qtile.org/">Qtile</a>的配置，如果有兴趣也可以<a target="_blank" rel="noopener" href="https://github.com/wangjianze96/Qtile">尝试一下</a>。</p>
+<p><img src="./arch_imgs/25.png" alt="25"></p>
+<p>虽然废了很多力气写这两篇文档，但实际上我并没有把Arch Linux作为我常用的工作系统，处于工作的需要，我依然需要Windows和Ubuntu。Arch Linux也因为是滚动更新所以并不稳定，所以我并不推荐新手把Arch用作工作系统。但也正因为如此，在使用Arch的过程中会需要解决问题，我对于Linux的理解也更加的深入了。</p>
+<p>如果这两篇教程有帮助到你，我会非常开心。一起继续保持学习吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://wangjianze96.github.io/2021/08/14/hspice/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -979,7 +1101,7 @@ source.
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
